@@ -1,0 +1,10 @@
+{
+  "name": "merge-multiple-configs-deeply",
+  "description": "merge one or more configs.",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  }
+}
