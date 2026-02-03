@@ -27,8 +27,36 @@ function countKeys(obj) {
 }
 
 /**
+ * Deeply compares two values for equality
+ * @param {*} val1
+ * @param {*} val2
+ * @returns {boolean}
+ */
+function deepEqual(val1, val2) {
+    if (val1 === val2) return true;
+
+    if (val1 === null || val2 === null) return false;
+    if (typeof val1 !== typeof val2) return false;
+
+    if (Array.isArray(val1) && Array.isArray(val2)) {
+        if (val1.length !== val2.length) return false;
+        return val1.every((item, idx) => deepEqual(item, val2[idx]));
+    }
+
+    if (isPlainObject(val1) && isPlainObject(val2)) {
+        const keys1 = Object.keys(val1);
+        const keys2 = Object.keys(val2);
+        if (keys1.length !== keys2.length) return false;
+        return keys1.every(key => deepEqual(val1[key], val2[key]));
+    }
+
+    return false;
+}
+
+/**
  * Deeply merges two objects, with values from overrideObj replacing those in baseObj.
  * Arrays and non-plain objects are replaced (not merged).
+ * Only counts properties that actually changed.
  * @param {Object} baseObj
  * @param {Object} overrideObj
  * @returns {Object} Object with merged result and merge count
@@ -46,8 +74,11 @@ function deepMerge(baseObj = {}, overrideObj = {}) {
             result[key] = nested.result;
             mergeCount += nested.mergeCount;
         } else {
+            // Only count if the value actually changed
+            if (!deepEqual(baseVal, overrideVal)) {
+                mergeCount++;
+            }
             result[key] = overrideVal;
-            mergeCount++;
         }
     });
 
