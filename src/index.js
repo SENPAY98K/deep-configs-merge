@@ -12,7 +12,7 @@ async function fileExists(p) {
 }
 
 function printUsage() {
-    console.log('Usage: node index.js <base.json> <override1.json> [override2.json ...]');
+    console.log('Usage: node src/index.js <base.json> <override1.json> [override2.json ...]');
     console.log('Merges all override files into base and writes result to mergedOutput.json by default.');
     console.log('Options: --help, -h');
 }
