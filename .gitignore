@@ -2,3 +2,4 @@
 /configs/*
 *.json
 !package.json
+*.zip
