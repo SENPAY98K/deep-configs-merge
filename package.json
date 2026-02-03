@@ -1,6 +1,6 @@
 {
-  "name": "merge-multiple-configs-deeply",
-  "description": "Merge one or more configs with statistics tracking.",
+  "name": "deep-configs-merge",
+  "description": "Merge one or more configs with real statistics tracking.",
   "version": "3.0.0",
   "main": "src/index.js",
   "dependencies": {
