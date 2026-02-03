@@ -4,11 +4,11 @@ Small CLI and library to merge one base JSON file with one or more override JSON
 
 ## Features
 
-✨ **New in v2.0.0**: Automatic merge statistics showing:
+✨ **New in v3.0.0**: Automatic merge statistics showing:
 
 - Total keys in base file
-- Properties merged per override file
-- Total properties merged
+- Properties actually changed per override file (skips identical values)
+- Total properties modified
 - Properties unchanged from base
 
 ## Requirements
@@ -64,15 +64,17 @@ Base file: base.json
   Total keys: 6
 
 Override files:
-  file1000.json: 2 properties merged
-  file2000.json: 2 properties merged
+  file1000.json: 0 properties changed
+  file2000.json: 17 properties changed
 
-Total properties merged: 4
+Total properties changed: 4
 Properties unchanged from base: 2
 ==================================================
 
 ✓ Configs merged successfully -> mergedOutput.json
 ```
+
+**Note:** The statistics only count properties that actually changed. If an override file has the same value as the base file, it's not counted as a change.
 
 Exit codes:
 
