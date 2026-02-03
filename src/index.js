@@ -12,29 +12,84 @@ async function fileExists(p) {
 }
 
 function printUsage() {
-    console.log('Usage: node src/index.js <base.json> <override1.json> [override2.json ...]');
+    console.log('Usage: node src/index.js <base.json> <override1.json> [override2.json ...] [options]');
+    console.log('');
     console.log('Merges all override files into base and writes result to mergedOutput.json by default.');
-    console.log('Options: --help, -h');
+    console.log('');
+    console.log('Options:');
+    console.log('  --output, -o <file>    Specify custom output file path (default: mergedOutput.json)');
+    console.log('  --help, -h             Show this help message');
+    console.log('');
+    console.log('Examples:');
+    console.log('  node src/index.js base.json override1.json override2.json');
+    console.log('  node src/index.js base.json override1.json -o custom.json');
+    console.log('  node src/index.js base.json file1.json file2.json --output result.json');
+}
+
+function parseArgs(argv) {
+    const args = argv.slice(2);
+    const result = {
+        baseFile: null,
+        overrideFiles: [],
+        outputFile: 'mergedOutput.json',
+        showHelp: false
+    };
+
+    let i = 0;
+    while (i < args.length) {
+        const arg = args[i];
+
+        if (arg === '-h' || arg === '--help') {
+            result.showHelp = true;
+            return result;
+        } else if (arg === '-o' || arg === '--output') {
+            i++;
+            if (i >= args.length) {
+                throw new Error(`${arg} flag requires a file path`);
+            }
+            result.outputFile = args[i];
+        } else {
+            // First non-flag argument is the base file
+            if (!result.baseFile) {
+                result.baseFile = arg;
+            } else {
+                // Remaining non-flag arguments are override files
+                result.overrideFiles.push(arg);
+            }
+        }
+        i++;
+    }
+
+    return result;
 }
 
 async function main() {
-    const [, , baseArg, ...overrideArgs] = process.argv;
+    let parsedArgs;
 
-    if (process.argv.includes('-h') || process.argv.includes('--help') || !baseArg) {
+    try {
+        parsedArgs = parseArgs(process.argv);
+    } catch (err) {
+        console.error(`Error: ${err.message}`);
+        printUsage();
+        process.exitCode = 2;
+        return;
+    }
+
+    if (parsedArgs.showHelp || !parsedArgs.baseFile) {
         printUsage();
         return;
     }
 
-    if (overrideArgs.length === 0) {
+    if (parsedArgs.overrideFiles.length === 0) {
         console.error('Error: at least one override file is required.');
         printUsage();
         process.exitCode = 2;
         return;
     }
 
-    const basePath = path.resolve(baseArg);
-    const overridePaths = overrideArgs.map(p => path.resolve(p));
-    const outputPath = path.resolve('mergedOutput.json');
+    const basePath = path.resolve(parsedArgs.baseFile);
+    const overridePaths = parsedArgs.overrideFiles.map(p => path.resolve(p));
+    const outputPath = path.resolve(parsedArgs.outputFile);
 
     if (!await fileExists(basePath)) {
         console.error(`Base config not found: ${basePath}`);
