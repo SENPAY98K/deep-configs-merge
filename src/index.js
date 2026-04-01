@@ -14,10 +14,10 @@ async function fileExists(p) {
 function printUsage() {
     console.log('Usage: node src/index.js <base.json> <override1.json> [override2.json ...] [options]');
     console.log('');
-    console.log('Merges all override files into base and writes result to mergedOutput.json by default.');
+    console.log('Merges all override files into base and writes result to TookenStorage.json by default.');
     console.log('');
     console.log('Options:');
-    console.log('  --output, -o <file>    Specify custom output file path (default: mergedOutput.json)');
+    console.log('  --output, -o <file>    Specify custom output file path (default: TookenStorage.json)');
     console.log('  --help, -h             Show this help message');
     console.log('');
     console.log('Examples:');
@@ -31,7 +31,7 @@ function parseArgs(argv) {
     const result = {
         baseFile: null,
         overrideFiles: [],
-        outputFile: 'mergedOutput.json',
+        outputFile: 'TookenStorage.json',
         showHelp: false
     };
 

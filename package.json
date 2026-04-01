@@ -1,7 +1,7 @@
 {
   "name": "deep-configs-merge",
   "description": "Merge one or more configs with real statistics tracking.",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "main": "src/index.js",
   "dependencies": {
     "fs": "^0.0.1-security",
