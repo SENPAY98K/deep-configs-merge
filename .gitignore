@@ -1,5 +1,7 @@
 /node_modules/
-/configs/*
+text/*
+configs/*
 *.json
 !package.json
+matched.txt
 *.zip

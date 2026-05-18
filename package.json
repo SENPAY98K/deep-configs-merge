@@ -2,7 +2,15 @@
   "name": "deep-configs-merge",
   "description": "Merge one or more configs with real statistics tracking.",
   "version": "3.0.1",
-  "main": "src/index.js",
+  "scripts": {
+    "merger": "node src/merger.js configs/base.json configs/0000.json configs/1000.json configs/2000.json configs/3000.json configs/4000.json",
+    "merger0": "node src/merger.js configs/base.json configs/0000.json",
+    "merger1": "node src/merger.js configs/base.json configs/1000.json",
+    "merger2": "node src/merger.js configs/base.json configs/2000.json",
+    "merger3": "node src/merger.js configs/base.json configs/3000.json",
+    "merger4": "node src/merger.js configs/base.json configs/4000.json",
+    "matcher": "node src/matcher.js"
+  },
   "dependencies": {
     "fs": "^0.0.1-security",
     "path": "^0.12.7"
